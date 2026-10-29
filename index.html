@@ -1,1 +1,137 @@
-index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CGLSathi.in - PwD/OH SSC CGL Portal</title>
+    <style>
+        :root { --primary: #1e3a8a; --secondary: #2563eb; --accent: #f59e0b; --bg: #f8fafc; --text: #1e293b; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: var(--bg); color: var(--text); line-height: 1.6; }
+        header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 2rem 1rem; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        header p { font-size: 1.1rem; opacity: 0.9; }
+        .container { max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
+        .card { background: white; border-radius: 12px; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .card h2 { color: var(--primary); margin-bottom: 1rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; }
+        .btn { background: var(--secondary); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 6px; font-size: 1rem; cursor: pointer; transition: background 0.2s; font-weight: bold; }
+        .btn:hover { background: #1d4ed8; }
+        .upload-section { border: 2px dashed #cbd5e1; padding: 2rem; text-align: center; border-radius: 8px; background: #f1f5f9; }
+        /* Modal */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; z-index: 1000; }
+        .modal-content { background: white; padding: 2rem; border-radius: 12px; max-width: 450px; width: 90%; text-align: center; position: relative; animation: slideUp 0.3s ease; }
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .close-btn { position: absolute; top: 10px; right: 15px; font-size: 1.5rem; cursor: pointer; color: #64748b; }
+        .qr-box { margin: 1.5rem 0; }
+        .qr-svg { width: 180px; height: 180px; margin: 0 auto; display: block; border: 4px solid var(--primary); border-radius: 8px; padding: 8px; background: white; }
+        .pricing { display: flex; gap: 1rem; justify-content: center; margin: 1rem 0; }
+        .price-card { border: 2px solid #e2e8f0; padding: 1rem; border-radius: 8px; flex: 1; background: #f8fafc; }
+        .price-card h3 { color: var(--primary); margin-bottom: 0.5rem; }
+        .price-card p { font-size: 1.25rem; font-weight: bold; color: var(--accent); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>CGLSathi.in</h1>
+        <p>Dedicated Portal for PwD & OH SSC CGL Aspirants | Founded by Neeraj Meena</p>
+    </header>
+
+    <div class="container">
+        <!-- Mock Test Section -->
+        <div class="card">
+            <h2>🎯 PwD / OH Special 20-Min Mock Test Studio</h2>
+            <p>Standard time is 15 mins, but PwD/OH aspirants get an exclusive 20-minute compensatory time framework to practice effectively.</p>
+            <br>
+            <button class="btn" onclick="alert('Mock Test Module Loaded! Timer set to 20 Minutes.')">Start 20-Min Mock Test</button>
+        </div>
+
+        <!-- PYQ Upload Section -->
+        <div class="card">
+            <h2>📁 PYQ File Upload & Analysis</h2>
+            <p>Free Tier Limit: Upload up to <strong>2 PYQ files</strong> for free. 3rd upload onwards requires an active subscription plan.</p>
+            <br>
+            <div class="upload-section">
+                <p id="upload-status">Files Uploaded: <span id="upload-count">0</span> / 2 (Free)</p>
+                <br>
+                <input type="file" id="pyq-file" style="display:none;" onchange="handleUpload()">
+                <button class="btn" onclick="document.getElementById('pyq-file').click()">Upload PYQ File (.pdf)</button>
+            </div>
+        </div>
+
+        <!-- Vocabulary Studio -->
+        <div class="card">
+            <h2>📚 Vocabulary & Handwritten Notes Studio</h2>
+            <p>Access high-yield revision notes, mnemonics, and previous year vocabulary curated specifically for competitive exams.</p>
+            <br>
+            <button class="btn" onclick="alert('Opening Vocabulary Studio...')">Explore Vocabulary</button>
+        </div>
+    </div>
+
+    <!-- Subscription Modal -->
+    <div id="subModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2 style="color: var(--primary); margin-bottom: 0.5rem;">Upgrade to Unlimited Access</h2>
+            <p style="font-size: 0.95rem; color: #64748b;">You have reached the free limit of 2 PYQ uploads. Support the creator by subscribing below!</p>
+            
+            <div class="pricing">
+                <div class="price-card">
+                    <h3>6 Months</h3>
+                    <p>₹100</p>
+                </div>
+                <div class="price-card">
+                    <h3>1 Year</h3>
+                    <p>₹250</p>
+                </div>
+            </div>
+
+            <div class="qr-box">
+                <p style="font-weight: bold; margin-bottom: 0.5rem;">Scan & Pay via any UPI App</p>
+                <!-- Inline High-Contrast QR Code Placeholder / SVG -->
+                <svg class="qr-svg" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="#000" d="M0 0h9v9H0zM2 2h5v5H2zM16 0h9v9h-9zM18 2h5v5h-5zM0 16h9v9H0zM2 18h5v5H2z"/>
+                    <path fill="#fff" d="M3 3h3v3H3zM19 3h3v3h-3zM3 19h3v3H3z"/>
+                    <rect x="10" y="2" width="3" height="3" fill="#000"/>
+                    <rect x="14" y="2" width="2" height="2" fill="#000"/>
+                    <rect x="10" y="7" width="4" height="2" fill="#000"/>
+                    <rect x="2" y="10" width="3" height="3" fill="#000"/>
+                    <rect x="7" y="10" width="3" height="4" fill="#000"/>
+                    <rect x="11" y="11" width="3" height="3" fill="#000"/>
+                    <rect x="16" y="10" width="3" height="3" fill="#000"/>
+                    <rect x="21" y="10" width="2" height="4" fill="#000"/>
+                    <rect x="10" y="16" width="4" height="3" fill="#000"/>
+                    <rect x="16" y="16" width="3" height="3" fill="#000"/>
+                    <rect x="20" y="16" width="3" height="3" fill="#000"/>
+                    <rect x="11" y="21" width="3" height="2" fill="#000"/>
+                    <rect x="16" y="21" width="4" height="2" fill="#000"/>
+                </svg>
+                <p style="margin-top: 0.75rem; font-weight: bold; font-size: 0.9rem; color: #1e3a8a;">UPI ID: ....3487@kotakbank</p>
+                <p style="font-size: 0.8rem; color: #64748b; margin-top: 2px;">Neeraj Harikesh Meena</p>
+            </div>
+
+            <button class="btn" style="width: 100%;" onclick="alert('After payment, share screenshot on WhatsApp/Telegram to activate your plan instantly!')">I Have Paid / Verify</button>
+        </div>
+    </div>
+
+    <script>
+        let uploadCount = 0;
+        function handleUpload() {
+            const fileInput = document.getElementById('pyq-file');
+            if (fileInput.files.length > 0) {
+                uploadCount++;
+                if (uploadCount <= 2) {
+                    document.getElementById('upload-count').innerText = uploadCount;
+                    alert('PYQ File uploaded successfully! Free uploads remaining: ' + (2 - uploadCount));
+                } else {
+                    uploadCount = 2; // cap display
+                    document.getElementById('subModal').style.display = 'flex';
+                }
+            }
+        }
+        function closeModal() {
+            document.getElementById('subModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
